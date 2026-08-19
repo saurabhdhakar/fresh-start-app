@@ -23,3 +23,11 @@ export const storage = getStorage(firebaseApp);
 
 export const googleProvider = new GoogleAuthProvider();
 export const appleProvider = new OAuthProvider("apple.com");
+
+// Analytics is browser-only — call this from a useEffect, never during SSR.
+export async function initAnalytics() {
+  if (typeof window === "undefined") return null;
+  const { getAnalytics, isSupported } = await import("firebase/analytics");
+  if (!(await isSupported())) return null;
+  return getAnalytics(firebaseApp);
+}
