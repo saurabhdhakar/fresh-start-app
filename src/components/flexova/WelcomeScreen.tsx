@@ -7,7 +7,7 @@ export function WelcomeScreen({ onPick }: { onPick: (g: "male" | "female") => vo
   const { t } = useI18n();
   return (
     <div className="px-6 pt-8 pb-10 animate-rise">
-      <img src={wordmark.url} alt="Flexova logo" className="h-12 w-auto" />
+      <img src={wordmark} alt="Flexova logo" className="h-12 w-auto" />
       <div className="mt-6 text-center">
         <h2 className="text-3xl font-bold">{t("welcome.title")}</h2>
         <p className="mt-2 text-sm text-muted-foreground">{t("welcome.subtitle")}</p>
@@ -19,7 +19,7 @@ export function WelcomeScreen({ onPick }: { onPick: (g: "male" | "female") => vo
           className="group relative h-80 overflow-hidden rounded-3xl border-2 border-primary/50 bg-card text-left transition hover:border-primary hover:shadow-glow"
         >
           <img
-            src={maleCard.url}
+            src={maleCard}
             alt="Man training with dumbbells"
             width={768}
             height={1024}
@@ -43,7 +43,7 @@ export function WelcomeScreen({ onPick }: { onPick: (g: "male" | "female") => vo
           style={{ borderColor: "oklch(0.82 0.13 15 / 0.6)" }}
         >
           <img
-            src={femaleCard.url}
+            src={femaleCard}
             alt="Woman stretching in a gym"
             width={768}
             height={1024}

@@ -14,13 +14,13 @@ export function Splash({ onDone }: { onDone: () => void }) {
         <div className="absolute inset-0 -m-8 rounded-full border border-primary/30 animate-ring-spin" />
         <div className="absolute inset-0 -m-14 rounded-full border border-primary/10 animate-ring-spin" style={{ animationDirection: "reverse", animationDuration: "12s" }} />
         <img
-          src={icon.url}
+          src={icon}
           alt="Flexova app icon"
           className="relative h-24 w-24 rounded-3xl shadow-glow animate-flex-pulse"
         />
       </div>
       <div className="mt-10 text-center animate-rise">
-        <img src={wordmark.url} alt="Flexova logo" className="mx-auto h-14 w-auto" />
+        <img src={wordmark} alt="Flexova logo" className="mx-auto h-14 w-auto" />
         <p className="mt-3 text-sm text-muted-foreground uppercase tracking-[0.3em]">Move. Sculpt. Rise.</p>
       </div>
       <div className="absolute bottom-12 flex items-center gap-1">
