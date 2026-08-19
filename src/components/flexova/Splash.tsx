@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import icon from "@/assets/flexova-icon.png.asset.json";
-import wordmark from "@/assets/flexova-wordmark.png.asset.json";
+import icon from "@/assets/flexova-icon.png";
+import wordmark from "@/assets/flexova-wordmark.png";
 
 export function Splash({ onDone }: { onDone: () => void }) {
   useEffect(() => {

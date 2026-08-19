@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Mail, Lock, Eye, EyeOff, ShieldCheck, Apple } from "lucide-react";
-import icon from "@/assets/flexova-icon.png.asset.json";
+import icon from "@/assets/flexova-icon.png";
 import { useI18n } from "@/lib/i18n";
 import { signInWithEmail, signUpWithEmail, signInWithProvider, sendReset } from "@/lib/firebase-auth";
 

@@ -1,6 +1,6 @@
-import wordmark from "@/assets/flexova-wordmark.png.asset.json";
-import maleCard from "@/assets/male-card.jpg.asset.json";
-import femaleCard from "@/assets/female-card.jpg.asset.json";
+import wordmark from "@/assets/flexova-wordmark.png";
+import maleCard from "@/assets/male-card.jpg";
+import femaleCard from "@/assets/female-card.jpg";
 import { useI18n } from "@/lib/i18n";
 
 export function WelcomeScreen({ onPick }: { onPick: (g: "male" | "female") => void }) {

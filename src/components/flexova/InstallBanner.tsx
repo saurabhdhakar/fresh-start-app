@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { X, Download, Share } from "lucide-react";
-import icon from "@/assets/flexova-icon.png.asset.json";
+import icon from "@/assets/flexova-icon.png";
 
 type BIPEvent = Event & {
   prompt: () => Promise<void>;
