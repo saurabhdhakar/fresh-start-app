@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "Flexova",
+    "slug": "flexova",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "flexova",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#141821",
+    "splash": {
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#141821"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "app.flexova.mobile"
+    },
+    "android": {
+      "package": "app.flexova.mobile",
+      "permissions": ["VIBRATE"],
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#141821"
+      }
+    },
+    "web": {
+      "favicon": "./assets/icon.png"
+    }
+  }
+}
