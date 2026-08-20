@@ -3,6 +3,7 @@ import { Mail, Lock, Eye, EyeOff, ShieldCheck, Apple } from "lucide-react";
 import icon from "@/assets/flexova-icon.png";
 import { useI18n } from "@/lib/i18n";
 import { signInWithEmail, signUpWithEmail, signInWithProvider, sendReset } from "@/lib/firebase-auth";
+import { authErrorKey } from "@/lib/auth-errors";
 
 function GoogleLogo() {
   return (
@@ -47,7 +48,7 @@ export function AuthScreen({
         mode === "signup" ? await signUpWithEmail(email, password) : await signInWithEmail(email, password);
       onDone(user.displayName || email.split("@")[0]);
     } catch (e) {
-      setError(e instanceof Error ? e.message.replace(/^Firebase:\s*/, "") : "Something went wrong");
+      setError(t(authErrorKey(e)));
     } finally {
       setBusy(false);
     }
@@ -60,7 +61,7 @@ export function AuthScreen({
       const user = await signInWithProvider(kind);
       onDone(user.displayName || user.email?.split("@")[0] || "Athlete");
     } catch (e) {
-      setError(e instanceof Error ? e.message.replace(/^Firebase:\s*/, "") : "Something went wrong");
+      setError(t(authErrorKey(e)));
     } finally {
       setBusy(false);
     }
@@ -71,9 +72,9 @@ export function AuthScreen({
     setError(null);
     try {
       await sendReset(email);
-      setNotice("Password reset email sent.");
+      setNotice(t("auth.resetSent"));
     } catch (e) {
-      setError(e instanceof Error ? e.message.replace(/^Firebase:\s*/, "") : "Something went wrong");
+      setError(t(authErrorKey(e)));
     }
   };
 
