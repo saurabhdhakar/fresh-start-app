@@ -4,6 +4,7 @@ import { AIPlansPanel, TrackingPanel, GoalsPanel } from "./QuickPanels";
 import { DailyProgressCard, AIInsightCard, ProgressScreen, FeatureStrip, type DailyStats } from "./ProgressScreens";
 import { NutritionScreen } from "./NutritionScreen";
 import { HydrationChallenges } from "./HydrationChallenges";
+import { FlexovaPremium } from "./FlexovaPremium";
 import { DEFAULT_PRICING, type Pricing } from "@/lib/geo";
 import type { WorkoutPlan } from "./data";
 import { FEMALE_CATEGORIES } from "./data";
