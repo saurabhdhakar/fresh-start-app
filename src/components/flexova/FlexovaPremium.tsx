@@ -23,11 +23,20 @@ type PaywallConfig = {
   actionLabel: string;
 };
 
+const MALE_04: Feature = {
+  no: "04",
+  emoji: "🏋️",
+  title: "Elite Alpha Strength",
+  desc: "Advanced targeted progression metrics for maximum muscle hypertrophy and power building.",
+};
+
 export function FlexovaPremium({
   isPremium = false,
+  gender = "female",
   onOpenSub,
 }: {
   isPremium?: boolean;
+  gender?: "male" | "female";
   onOpenSub: () => void;
 }) {
   const [config] = useState<PaywallConfig>({
@@ -37,7 +46,8 @@ export function FlexovaPremium({
     actionLabel: "Start 7-day trial",
   });
 
-  const [f1, f2, f3, f4, f5] = FEATURES;
+  const [f1, f2, f3, femaleF4, f5] = FEATURES;
+  const f4 = gender === "male" ? MALE_04 : femaleF4;
 
   return (
     <div className="space-y-3 animate-rise">

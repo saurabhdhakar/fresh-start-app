@@ -171,7 +171,7 @@ export function Dashboard({
 
       {tab === "plus" && (
         <div className="px-5 mt-5">
-          <FlexovaPremium isPremium={Boolean(isPremium)} onOpenSub={onOpenSub} />
+          <FlexovaPremium isPremium={Boolean(isPremium)} gender={gender} onOpenSub={onOpenSub} />
         </div>
       )}
 
