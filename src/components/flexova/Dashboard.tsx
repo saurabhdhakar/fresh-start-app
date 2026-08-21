@@ -170,11 +170,7 @@ export function Dashboard({
 
       {tab === "plus" && (
         <div className="px-5 mt-5">
-          <button onClick={onOpenSub} className="w-full rounded-3xl gradient-card border border-border p-6 text-left shadow-card">
-            <div className="text-3xl">👑</div>
-            <div className="mt-2 font-bold">Flexova Premium</div>
-            <div className="text-xs text-muted-foreground">Advanced AI, no ads, deeper insights</div>
-          </button>
+          <FlexovaPremium isPremium={Boolean(isPremium)} onOpenSub={onOpenSub} />
         </div>
       )}
 
