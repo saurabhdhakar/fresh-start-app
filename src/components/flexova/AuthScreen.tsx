@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Mail, Lock, Eye, EyeOff, ShieldCheck, Apple } from "lucide-react";
 import icon from "@/assets/flexova-icon.png";
 import { useI18n } from "@/lib/i18n";
-import { signInWithEmail, signUpWithEmail, signInWithProvider, sendReset } from "@/lib/firebase-auth";
+import { signInWithEmail, signUpWithEmail, signInWithProvider, sendReset, setAuthLanguage } from "@/lib/firebase-auth";
 import { authErrorKey } from "@/lib/auth-errors";
 
 function GoogleLogo() {
@@ -25,7 +25,7 @@ export function AuthScreen({
   onSkip: () => void;
   initialMode?: "login" | "signup";
 }) {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const [mode, setMode] = useState<"login" | "signup">(initialMode);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,6 +35,11 @@ export function AuthScreen({
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
+
+  // Keep Firebase Auth localized to the user's active language.
+  useEffect(() => {
+    void setAuthLanguage(language);
+  }, [language]);
 
   const submit = async () => {
     if (!/^\S+@\S+\.\S+$/.test(email)) return setError(t("auth.errEmail"));
@@ -219,7 +224,6 @@ export function AuthScreen({
         <button onClick={onSkip} className="mt-5 w-full text-center text-xs text-muted-foreground">
           {t("common.skip")} →
         </button>
-        <p className="mt-2 text-center text-[10px] text-muted-foreground">{t("auth.demoNote")}</p>
       </div>
     </div>
   );

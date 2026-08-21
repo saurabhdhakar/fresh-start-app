@@ -51,3 +51,25 @@ export async function uploadUserFile(uid: string, path: string, file: Blob) {
   await uploadBytes(fileRef, file);
   return getDownloadURL(fileRef);
 }
+/** Map the app's language ids to Firebase Auth locale codes. */
+export function firebaseLocale(language: string): string {
+  const map: Record<string, string> = {
+    en: "en",
+    en_in: "en-IN",
+    hinglish: "en-IN",
+    hi: "hi",
+    ta: "ta",
+    te: "te",
+    kn: "kn",
+    ml: "ml",
+    ar: "ar",
+    fr: "fr",
+  };
+  return map[language] ?? language.replace("_", "-");
+}
+
+/** Tell Firebase which language to localize its auth messages/emails in. */
+export async function setAuthLanguage(language: string) {
+  const { auth } = await import("@/integrations/firebase/client");
+  auth.languageCode = firebaseLocale(language);
+}
