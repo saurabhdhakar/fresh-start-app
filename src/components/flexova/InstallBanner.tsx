@@ -72,7 +72,9 @@ export function InstallBanner() {
         </button>
 
         <div className="flex items-center gap-3 pr-6">
-          <img src={icon} alt="Flexova app icon" className="h-11 w-11 rounded-xl" />
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-card p-1.5">
+            <img src={icon} alt="Flexova app icon" className="h-full w-full object-contain" />
+          </span>
           <div className="min-w-0 flex-1">
             <div className="truncate text-sm font-bold">Get the Flexova App</div>
             <div className="truncate text-[11px] text-muted-foreground">
