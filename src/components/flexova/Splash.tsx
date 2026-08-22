@@ -13,11 +13,9 @@ export function Splash({ onDone }: { onDone: () => void }) {
       <div className="relative">
         <div className="absolute inset-0 -m-8 rounded-full border border-primary/30 animate-ring-spin" />
         <div className="absolute inset-0 -m-14 rounded-full border border-primary/10 animate-ring-spin" style={{ animationDirection: "reverse", animationDuration: "12s" }} />
-        <img
-          src={icon}
-          alt="Flexova app icon"
-          className="relative h-24 w-24 rounded-3xl shadow-glow animate-flex-pulse"
-        />
+        <span className="relative flex h-24 w-24 items-center justify-center rounded-3xl bg-card p-4 shadow-glow animate-flex-pulse">
+          <img src={icon} alt="Flexova app icon" className="h-full w-full object-contain" />
+        </span>
       </div>
       <div className="mt-10 text-center animate-rise">
         <img src={wordmark} alt="Flexova logo" className="mx-auto h-14 w-auto" />
