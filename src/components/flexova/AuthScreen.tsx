@@ -86,7 +86,9 @@ export function AuthScreen({
   return (
     <div className="flex min-h-[calc(100vh-3rem)] flex-col px-6 pt-2 pb-8 animate-rise">
       <div className="text-center">
-        <img src={icon} alt="Flexova runner logo" className="mx-auto h-14 w-14 rounded-2xl shadow-glow" />
+        <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-card p-2 shadow-glow">
+          <img src={icon} alt="Flexova runner logo" className="h-full w-full object-contain" />
+        </span>
       </div>
 
       <div className="mt-5 grid grid-cols-2 gap-1 rounded-2xl border border-border bg-card p-1">
