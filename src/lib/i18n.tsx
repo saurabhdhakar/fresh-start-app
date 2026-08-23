@@ -613,6 +613,16 @@ export const DICTIONARIES: Record<string, Dict> = {
   fr,
 };
 
+/** Language-agnostic lookup — usable outside React components. */
+export function translate(language: string, key: TranslationKey): string {
+  return DICTIONARIES[language]?.[key] ?? en[key] ?? key;
+}
+
+/** English-only lookup (used by the pre-language country screen). */
+export function tEn(key: TranslationKey): string {
+  return en[key] ?? key;
+}
+
 type I18nValue = {
   language: string;
   setLanguage: (l: string) => void;
