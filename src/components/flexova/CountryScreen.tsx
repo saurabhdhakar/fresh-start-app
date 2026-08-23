@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Search, Check } from "lucide-react";
 import { COUNTRIES } from "./countries";
-import { useI18n } from "@/lib/i18n";
+import { tEn } from "@/lib/i18n";
 import type { ClimateLocation } from "@/lib/geo";
 
 export function CountryScreen({
@@ -15,7 +15,8 @@ export function CountryScreen({
   onContinue: () => void;
   detected?: ClimateLocation | null;
 }) {
-  const { t } = useI18n();
+  // Country screen is intentionally English-only (shown before language selection)
+  const t = tEn;
   const [q, setQ] = useState("");
 
   const list = useMemo(() => {
