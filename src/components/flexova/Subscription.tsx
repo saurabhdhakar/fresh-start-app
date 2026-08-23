@@ -16,8 +16,8 @@ export function Subscription({
   return (
     <div className="px-5 pt-4 pb-24 animate-rise">
       <div className="flex items-center justify-between">
-        <button onClick={onExit} className="text-sm text-muted-foreground">← Back</button>
-        <div className="text-xs uppercase tracking-widest text-primary">Membership</div>
+        <button onClick={onExit} className="text-sm text-muted-foreground">← {t("common.back")}</button>
+        <div className="text-xs uppercase tracking-widest text-primary">{t("sub.membership")}</div>
         <span className="w-8" />
       </div>
 
@@ -29,35 +29,35 @@ export function Subscription({
 
       <div className="mt-6 space-y-4">
         <PlanCard
-          title="Free"
+          title={t("sub.free")}
           price={pricing.free}
-          tag={isPremium ? "Downgraded" : "Current plan"}
-          features={["Basic workouts", "Basic trackers", "Ads shown"]}
-          cta={isPremium ? "Free plan" : "You're on Free"}
+          tag={isPremium ? t("sub.downgraded") : t("sub.current")}
+          features={[t("sub.free.f1"), t("sub.free.f2"), t("sub.free.f3")]}
+          cta={isPremium ? t("sub.freePlan") : t("sub.onFree")}
           disabled
         />
         <PlanCard
-          title="Premium"
+          title={t("sub.premium")}
           price={pricing.monthly}
           period={t("sub.month")}
           highlight
-          tag={isPremium ? "Active" : "Most popular"}
+          tag={isPremium ? t("sub.active") : t("sub.popular")}
           features={[
-            "Advanced workout customization",
-            "AI features (coach & recovery)",
-            "No ads, ever",
-            "Priority calorie scanner",
-            "Detailed analytics",
+            t("sub.pro.f1"),
+            t("sub.pro.f2"),
+            t("sub.pro.f3"),
+            t("sub.pro.f4"),
+            t("sub.pro.f5"),
           ]}
-          cta={isPremium ? "✓ Premium active" : "Start 7-day trial"}
+          cta={isPremium ? t("sub.premActive") : t("sub.trial")}
           disabled={isPremium}
           onClick={onSubscribe}
         />
       </div>
 
       <div className="mt-6 rounded-2xl border border-dashed border-border bg-card/40 p-4 text-center">
-        <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Sponsored</div>
-        <div className="mt-1 text-sm font-medium">Ads placeholder — hidden on Premium</div>
+        <div className="text-[10px] uppercase tracking-widest text-muted-foreground">{t("sub.sponsored")}</div>
+        <div className="mt-1 text-sm font-medium">{t("sub.adsNote")}</div>
       </div>
     </div>
   );

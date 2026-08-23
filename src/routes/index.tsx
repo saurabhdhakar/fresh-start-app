@@ -23,7 +23,7 @@ import {
   type WorkoutPlan,
 } from "@/components/flexova/data";
 import { getDailyPlan, DAY_NAMES } from "@/components/flexova/weeklyPlans";
-import { I18nProvider } from "@/lib/i18n";
+import { I18nProvider, translate, type TranslationKey } from "@/lib/i18n";
 import { pricingFor, type ClimateLocation } from "@/lib/geo";
 import { detectClimateLocation } from "@/lib/geo.functions";
 
@@ -65,7 +65,21 @@ function Flexova() {
   const [screen, setScreen] = useState<Screen>("splash");
   const [gender, setGender] = useState<"male" | "female" | null>(null);
   const [goal, setGoal] = useState<string | null>(null);
-  const [language, setLanguage] = useState("hinglish");
+  const [language, setLanguageState] = useState("hinglish");
+
+  // Global language state: restored on load and persisted across navigation/sessions
+  useEffect(() => {
+    const saved = typeof window !== "undefined" ? window.localStorage.getItem("flexova.language") : null;
+    if (saved) setLanguageState(saved);
+  }, []);
+  const setLanguage = (l: string) => {
+    setLanguageState(l);
+    try {
+      window.localStorage.setItem("flexova.language", l);
+    } catch {
+      /* storage unavailable */
+    }
+  };
   const [country, setCountry] = useState<string | null>(null);
   const [climate, setClimate] = useState<ClimateLocation | null>(null);
   const [userName, setUserName] = useState<string | null>(null);
@@ -153,13 +167,19 @@ function Flexova() {
   }, [lightMode]);
 
 
-  const goals = gender === "male" ? MALE_GOALS : FEMALE_GOALS;
+  const rawGoals = gender === "male" ? MALE_GOALS : FEMALE_GOALS;
+  const goalGender = gender === "male" ? "male" : "female";
+  const goals = rawGoals.map((g) => ({
+    ...g,
+    label: translate(language, `goal.${g.id}` as TranslationKey),
+    desc: translate(language, `goalDesc.${goalGender}.${g.id}` as TranslationKey),
+  }));
   const plans = gender === "male" ? MALE_PLANS : FEMALE_PLANS;
   const today = new Date().getDay();
   const dailyPlan = gender ? getDailyPlan(gender, goal, today) : null;
   const defaultPlan = dailyPlan ?? (goal && plans[goal] ? plans[goal] : Object.values(plans)[0]);
   const displayPlan = activePlan ?? defaultPlan;
-  const baseGoalLabel = goals.find((g) => g.id === goal)?.label ?? "Your plan";
+  const baseGoalLabel = goals.find((g) => g.id === goal)?.label ?? translate(language, "goal.yourPlan");
   const goalLabel = dailyPlan && !activePlan ? `${baseGoalLabel} • ${DAY_NAMES[today]}` : baseGoalLabel;
 
   // ---- Live daily stats (in-memory only, resets on refresh) ----

@@ -1,5 +1,6 @@
+import { useI18n } from "@/lib/i18n";
+
 export function GoalScreen({
-  gender,
   goals,
   onPick,
   onBack,
@@ -9,13 +10,12 @@ export function GoalScreen({
   onPick: (g: string) => void;
   onBack: () => void;
 }) {
+  const { t } = useI18n();
   return (
     <div className="px-6 pt-6 pb-10 animate-rise">
-      <button onClick={onBack} className="text-sm text-muted-foreground mb-6">← Back</button>
-      <h2 className="text-2xl font-bold">What's your goal?</h2>
-      <p className="mt-1 text-sm text-muted-foreground">
-        {gender === "male" ? "Choose what you want to achieve" : "Chunein aapke liye kya important hai"}
-      </p>
+      <button onClick={onBack} className="text-sm text-muted-foreground mb-6">← {t("common.back")}</button>
+      <h2 className="text-2xl font-bold">{t("goal.title")}</h2>
+      <p className="mt-1 text-sm text-muted-foreground">{t("goal.subtitle")}</p>
 
       <div className="mt-6 grid grid-cols-2 gap-3">
         {goals.map((g) => (
