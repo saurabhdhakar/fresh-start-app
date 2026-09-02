@@ -224,6 +224,20 @@ export function AccountScreen({
         </Sheet>
       )}
 
+      {showFocusAreas && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-white">
+          <FocusAreaScreen
+            gender={gender}
+            onBack={() => setShowFocusAreas(false)}
+            onSave={() => {
+              setShowFocusAreas(false);
+              setNote("Focus areas saved!");
+              setTimeout(() => setNote(null), 2500);
+            }}
+          />
+        </div>
+      )}
+
       {confirmDelete && (
         <Sheet onClose={() => setConfirmDelete(false)}>
           <div className="font-bold">Delete account?</div>
