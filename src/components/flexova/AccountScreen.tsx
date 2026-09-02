@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { FocusAreaScreen } from "./FocusAreaScreen";
 
 type Goal = { id: string; label: string; emoji: string };
 
@@ -49,6 +50,7 @@ export function AccountScreen({
   const [share, setShare] = useState(false);
   const [note, setNote] = useState<string | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [showFocusAreas, setShowFocusAreas] = useState(false);
 
   const bmi = height > 0 ? weight / Math.pow(height / 100, 2) : 0;
   const bmiLabel = bmi < 18.5 ? "Underweight" : bmi < 25 ? "Healthy" : bmi < 30 ? "Overweight" : "Obese";
@@ -155,6 +157,15 @@ export function AccountScreen({
         </div>
       </Section>
 
+      {/* Focus Areas */}
+      <Section title="Focus Areas">
+        <Row
+          label="🎯 Edit Focus Areas"
+          right={<span className="text-xs text-muted-foreground">Shoulder • Abs • Legs ›</span>}
+          onClick={() => setShowFocusAreas(true)}
+        />
+      </Section>
+
       {/* Share */}
       <div className="mt-5 rounded-3xl gradient-card border border-border p-5 shadow-card">
         <div className="text-xs uppercase tracking-widest text-primary">Progress Card</div>
@@ -211,6 +222,20 @@ export function AccountScreen({
             Close
           </button>
         </Sheet>
+      )}
+
+      {showFocusAreas && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-white">
+          <FocusAreaScreen
+            gender={gender}
+            onBack={() => setShowFocusAreas(false)}
+            onSave={() => {
+              setShowFocusAreas(false);
+              setNote("Focus areas saved!");
+              setTimeout(() => setNote(null), 2500);
+            }}
+          />
+        </div>
       )}
 
       {confirmDelete && (
