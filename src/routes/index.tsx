@@ -330,6 +330,7 @@ function Flexova() {
 
       {screen === "focus" && (
         <FocusAreaScreen
+          gender={gender ?? "male"}
           onSave={() => goRoot("dashboard")}
           onBack={() => back()}
         />
