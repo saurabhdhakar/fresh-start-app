@@ -29,12 +29,15 @@ const BTN_EDGE_LEFT = 30; // right edge (%) of left-side buttons
 const BTN_EDGE_RIGHT = 70; // left edge (%) of right-side buttons
 
 export function FocusAreaScreen({
+  gender = "male",
   onSave,
   onBack,
 }: {
+  gender?: "male" | "female";
   onSave?: (areas: string[]) => void;
   onBack?: () => void;
 }) {
+  const bodyImg = gender === "female" ? femaleBody : maleBody;
   const [selected, setSelected] = useState<string[]>([]);
   const toggle = (id: string) =>
     setSelected((s) => (s.includes(id) ? s.filter((x) => x !== id) : [...s, id]));
