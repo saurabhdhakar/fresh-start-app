@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Check } from "lucide-react";
-import bodyImg from "@/assets/focus-body.png";
+import maleBody from "@/assets/focus-body.png";
+import femaleBody from "@/assets/focus-body-female.png";
 
 type Area = {
   id: string;
