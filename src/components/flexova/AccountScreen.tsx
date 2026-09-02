@@ -157,6 +157,15 @@ export function AccountScreen({
         </div>
       </Section>
 
+      {/* Focus Areas */}
+      <Section title="Focus Areas">
+        <Row
+          label="🎯 Edit Focus Areas"
+          right={<span className="text-xs text-muted-foreground">Shoulder • Abs • Legs ›</span>}
+          onClick={() => setShowFocusAreas(true)}
+        />
+      </Section>
+
       {/* Share */}
       <div className="mt-5 rounded-3xl gradient-card border border-border p-5 shadow-card">
         <div className="text-xs uppercase tracking-widest text-primary">Progress Card</div>
