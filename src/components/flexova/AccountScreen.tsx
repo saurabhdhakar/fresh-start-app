@@ -50,6 +50,7 @@ export function AccountScreen({
   const [share, setShare] = useState(false);
   const [note, setNote] = useState<string | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [showFocusAreas, setShowFocusAreas] = useState(false);
 
   const bmi = height > 0 ? weight / Math.pow(height / 100, 2) : 0;
   const bmiLabel = bmi < 18.5 ? "Underweight" : bmi < 25 ? "Healthy" : bmi < 30 ? "Overweight" : "Obese";
