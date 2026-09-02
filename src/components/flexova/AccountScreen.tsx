@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { FocusAreaScreen } from "./FocusAreaScreen";
 
 type Goal = { id: string; label: string; emoji: string };
 
