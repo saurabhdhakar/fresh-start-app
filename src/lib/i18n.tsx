@@ -98,6 +98,8 @@ const en = {
   "prem.f4.desc": "Cycle-aware sculpt & tone plans.",
   "prem.f4m.title": "Elite Alpha Strength",
   "prem.f4m.desc": "Advanced targeted progression metrics for maximum muscle hypertrophy and power building.",
+  "prem.f6.title": "Focus Area Sculpting",
+  "prem.f6.desc": "Pick muscle groups for customized 3D workouts.",
   "prem.f5.title": "Animated Hydration Tracker",
   "prem.f5.desc": "Live wave rings + smart reminders.",
   // Subscription screen
