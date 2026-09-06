@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { FocusAreaScreen } from "./FocusAreaScreen";
+import { FocusAreaGate, type FocusGateState } from "./FocusAreaGate";
 
 type Goal = { id: string; label: string; emoji: string };
 
@@ -8,6 +8,8 @@ export function AccountScreen({
   gender,
   goals,
   goalId,
+  isPremium = false,
+  onOpenSub,
   photo,
   weight,
   height,
@@ -28,6 +30,8 @@ export function AccountScreen({
   gender: "male" | "female";
   goals: Goal[];
   goalId: string | null;
+  isPremium?: boolean;
+  onOpenSub: () => void;
   photo: string | null;
   weight: number;
   height: number;
@@ -50,7 +54,8 @@ export function AccountScreen({
   const [share, setShare] = useState(false);
   const [note, setNote] = useState<string | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const [showFocusAreas, setShowFocusAreas] = useState(false);
+  const [focusGate, setFocusGate] = useState<FocusGateState>("closed");
+  const [focusAreas, setFocusAreas] = useState<string[]>([]);
 
   const bmi = height > 0 ? weight / Math.pow(height / 100, 2) : 0;
   const bmiLabel = bmi < 18.5 ? "Underweight" : bmi < 25 ? "Healthy" : bmi < 30 ? "Overweight" : "Obese";
@@ -155,15 +160,17 @@ export function AccountScreen({
         <div className="mt-3">
           <NumField label="Target weight (kg)" value={targetWeight} onChange={onTargetWeight} />
         </div>
-      </Section>
-
-      {/* Focus Areas */}
-      <Section title="Focus Areas">
-        <Row
-          label="🎯 Edit Focus Areas"
-          right={<span className="text-xs text-muted-foreground">Shoulder • Abs • Legs ›</span>}
-          onClick={() => setShowFocusAreas(true)}
-        />
+        <div className="mt-3 border-t border-border pt-1">
+          <Row
+            label={`🎯 Edit Focus Areas${isPremium ? "" : " 🔒"}`}
+            right={
+              <span className="text-xs text-muted-foreground">
+                {focusAreas.length ? `${focusAreas.length} selected ›` : isPremium ? "Choose ›" : "Premium ›"}
+              </span>
+            }
+            onClick={() => setFocusGate(isPremium ? "editor" : "paywall")}
+          />
+        </div>
       </Section>
 
       {/* Share */}
@@ -224,19 +231,20 @@ export function AccountScreen({
         </Sheet>
       )}
 
-      {showFocusAreas && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-white">
-          <FocusAreaScreen
-            gender={gender}
-            onBack={() => setShowFocusAreas(false)}
-            onSave={() => {
-              setShowFocusAreas(false);
-              setNote("Focus areas saved!");
-              setTimeout(() => setNote(null), 2500);
-            }}
-          />
-        </div>
-      )}
+      <FocusAreaGate
+        state={focusGate}
+        gender={gender}
+        onClose={() => setFocusGate("closed")}
+        onUpgrade={() => {
+          setFocusGate("closed");
+          onOpenSub();
+        }}
+        onSaved={(areas) => {
+          setFocusAreas(areas);
+          setNote("Focus areas saved — your 3D workouts will adapt!");
+          setTimeout(() => setNote(null), 2500);
+        }}
+      />
 
       {confirmDelete && (
         <Sheet onClose={() => setConfirmDelete(false)}>

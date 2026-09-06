@@ -14,7 +14,6 @@ import { FoodScanner } from "@/components/flexova/FoodScanner";
 import { Subscription } from "@/components/flexova/Subscription";
 import { InstallBanner } from "@/components/flexova/InstallBanner";
 import { AccountScreen } from "@/components/flexova/AccountScreen";
-import { FocusAreaScreen } from "@/components/flexova/FocusAreaScreen";
 
 import {
   MALE_GOALS,
@@ -40,7 +39,6 @@ type Screen =
   | "welcome"
   | "goal"
   | "period"
-  | "focus"
   | "dashboard"
   | "workout"
   | "scanner"
@@ -52,7 +50,6 @@ type Screen =
 const SCREENS_WITH_OWN_BACK = new Set<Screen>([
   "goal",
   "period",
-  "focus",
   "workout",
   "scanner",
   "subscription",
@@ -306,7 +303,7 @@ function Flexova() {
           onPick={(g) => {
             setGoal(g);
             if (gender === "female") go("period");
-            else go("focus");
+            else goRoot("dashboard");
           }}
           onBack={() => back()}
         />
@@ -317,22 +314,14 @@ function Flexova() {
           onSkip={() => {
             setPeriodBanner(null);
             setCyclePhase(null);
-            go("focus");
+            goRoot("dashboard");
           }}
           onDone={(plan, phase) => {
             setActivePlan(plan);
             setCyclePhase(plan ? phase : null);
             setPeriodBanner(plan ? `Recovery mode active — ${plan.title}` : null);
-            go("focus");
+            goRoot("dashboard");
           }}
-        />
-      )}
-
-      {screen === "focus" && (
-        <FocusAreaScreen
-          gender={gender ?? "male"}
-          onSave={() => goRoot("dashboard")}
-          onBack={() => back()}
         />
       )}
 
@@ -391,6 +380,8 @@ function Flexova() {
         <AccountScreen
           userName={userName}
           gender={gender}
+          isPremium={isPremium}
+          onOpenSub={() => go("subscription")}
           goals={goals}
           goalId={goal}
           photo={photo}

@@ -74,6 +74,8 @@ export function FocusAreaScreen({
             alt="Fitness athlete showing muscle focus areas"
             width={640}
             height={1216}
+            loading="lazy"
+            decoding="async"
             className="absolute left-1/2 top-0 h-full w-auto -translate-x-1/2 object-contain"
           />
 

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FocusAreaGate, type FocusGateState } from "./FocusAreaGate";
 import { useI18n, type TranslationKey } from "@/lib/i18n";
 
 type Feature = {
@@ -48,6 +49,8 @@ export function FlexovaPremium({
     actionLabelKey: "prem.cta",
   });
 
+  const [focusGate, setFocusGate] = useState<FocusGateState>("closed");
+  const [focusAreas, setFocusAreas] = useState<string[]>([]);
   const [f1, f2, f3, femaleF4, f5] = FEATURES;
   const f4 = gender === "male" ? MALE_04 : femaleF4;
 
@@ -86,6 +89,30 @@ export function FlexovaPremium({
         <Module feature={f4} isPremium={isPremium} onClick={onOpenSub} />
         <Module feature={f5} isPremium={isPremium} onClick={onOpenSub} />
       </div>
+
+      <Module
+        wide
+        isPremium={isPremium}
+        onClick={() => setFocusGate(isPremium ? "editor" : "paywall")}
+        feature={{
+          no: "06",
+          emoji: "🎯",
+          titleKey: "prem.f6.title",
+          descKey: "prem.f6.desc",
+        }}
+        badge={focusAreas.length ? `${focusAreas.length} areas` : undefined}
+      />
+
+      <FocusAreaGate
+        state={focusGate}
+        gender={gender}
+        onClose={() => setFocusGate("closed")}
+        onUpgrade={() => {
+          setFocusGate("closed");
+          onOpenSub();
+        }}
+        onSaved={setFocusAreas}
+      />
     </div>
   );
 }
@@ -95,11 +122,13 @@ function Module({
   isPremium,
   wide,
   onClick,
+  badge,
 }: {
   feature: Feature;
   isPremium: boolean;
   wide?: boolean;
   onClick: () => void;
+  badge?: string;
 }) {
   const { t } = useI18n();
   return (
@@ -116,6 +145,7 @@ function Module({
       <div className={wide ? "min-w-0" : ""}>
         <div className={`${wide ? "" : "mt-2"} font-semibold text-sm pr-6`}>{t(feature.titleKey)}</div>
         <div className="text-[11px] text-muted-foreground mt-0.5 pr-6">{t(feature.descKey)}</div>
+        {badge && <div className="mt-1 text-[10px] uppercase tracking-widest text-primary">{badge}</div>}
       </div>
 
       <span
