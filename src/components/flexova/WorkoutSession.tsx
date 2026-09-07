@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import type { Exercise, WorkoutPlan } from "./data";
+import { getExerciseLoop } from "./exerciseAssets";
+
 
 export function WorkoutSession({
   plan,
@@ -121,7 +123,25 @@ function Stat({ label, value }: { label: string; value: string }) {
   );
 }
 
-function ExerciseCard({
+const ExerciseLoop = memo(function ExerciseLoop({ name, emoji }: { name: string; emoji: string }) {
+  return (
+    <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-2xl bg-background/50">
+      <video
+        src={getExerciseLoop(name)}
+        className="h-full w-full object-cover"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="none"
+        aria-label={`${name} 3D demo loop`}
+      />
+      <span className="pointer-events-none absolute bottom-0 right-0 text-[10px]">{emoji}</span>
+    </div>
+  );
+});
+
+const ExerciseCard = memo(function ExerciseCard({
   e,
   done,
   swapped,
@@ -137,9 +157,8 @@ function ExerciseCard({
   return (
     <div className={`rounded-2xl border p-4 transition ${done ? "border-primary/40 bg-primary/5" : "border-border bg-card"}`}>
       <div className="flex items-center gap-3">
-        <div className="h-14 w-14 rounded-2xl bg-background/50 flex items-center justify-center text-2xl">
-          {e.emoji}
-        </div>
+        <ExerciseLoop name={e.name} emoji={e.emoji} />
+
         <div className="flex-1">
           <div className="font-semibold flex items-center gap-2">
             {e.name}
@@ -173,7 +192,8 @@ function ExerciseCard({
       </div>
     </div>
   );
-}
+});
+
 
 function Celebrate() {
   return (
