@@ -49,7 +49,7 @@ export function FocusAreaScreen({
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-3rem)] flex-col bg-white text-neutral-900">
+    <div className="flex h-full max-h-screen min-h-screen flex-col overflow-y-auto overscroll-contain bg-white text-neutral-900" style={{ WebkitOverflowScrolling: "touch" }}>
       <div className="px-6 pt-4">
         {onBack && (
           <button
@@ -67,7 +67,7 @@ export function FocusAreaScreen({
       </div>
 
       {/* Body map */}
-      <div className="relative mx-auto mt-4 w-full max-w-sm flex-1 px-3">
+      <div className="relative mx-auto mt-4 w-full max-w-sm shrink-0 px-3 pb-6">
         <div className="relative w-full" style={{ aspectRatio: "3 / 5" }}>
           <img
             src={bodyImg}

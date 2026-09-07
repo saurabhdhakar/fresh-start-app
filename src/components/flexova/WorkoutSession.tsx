@@ -1,6 +1,6 @@
 import { memo, useEffect, useRef, useState } from "react";
 import type { Exercise, WorkoutPlan } from "./data";
-import { getExerciseLoop } from "./exerciseAssets";
+import { getExerciseLoopFor, getMuscleGlow } from "./exerciseAssets";
 
 
 export function WorkoutSession({
@@ -20,6 +20,7 @@ export function WorkoutSession({
   const [restFor, setRestFor] = useState<Exercise | null>(null);
   const [altFor, setAltFor] = useState<Exercise | null>(null);
   const [showCelebrate, setShowCelebrate] = useState(false);
+  const [zoomFor, setZoomFor] = useState<Exercise | null>(null);
 
   const complete = (e: Exercise) => {
     if (done.has(e.id)) return;
@@ -83,8 +84,10 @@ export function WorkoutSession({
             e={e}
             swapped={swapped.has(e.id)}
             done={done.has(e.id)}
+            gender={gender}
             onComplete={() => complete(e)}
             onAlt={() => setAltFor(e)}
+            onZoom={() => setZoomFor(e)}
           />
         ))}
       </div>
@@ -100,6 +103,9 @@ export function WorkoutSession({
         </div>
       )}
 
+      {zoomFor && (
+        <ZoomModal name={zoomFor.name} gender={gender} onClose={() => setZoomFor(null)} />
+      )}
       {showCelebrate && <Celebrate />}
       {restFor && <RestTimer exercise={restFor} onClose={() => setRestFor(null)} />}
       {altFor && (
@@ -123,76 +129,142 @@ function Stat({ label, value }: { label: string; value: string }) {
   );
 }
 
-const ExerciseLoop = memo(function ExerciseLoop({ name, emoji }: { name: string; emoji: string }) {
+const ExerciseLoop = memo(function ExerciseLoop({
+  name,
+  emoji,
+  muscle,
+  gender,
+  onZoom,
+}: {
+  name: string;
+  emoji: string;
+  muscle: string;
+  gender: "male" | "female";
+  onZoom: () => void;
+}) {
+  const glow = getMuscleGlow(muscle);
   return (
-    <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-2xl bg-background/50">
+    <button
+      type="button"
+      onClick={onZoom}
+      aria-label={`Zoom ${name} 3D demo`}
+      className="relative shrink-0 overflow-hidden bg-background/50 active:scale-95 transition-transform"
+      style={{
+        height: 85,
+        width: 85,
+        borderRadius: 16,
+        boxShadow: `inset 0 0 18px -4px ${glow}, 0 0 12px -4px ${glow}`,
+        border: `1px solid ${glow}`,
+      }}
+    >
       <video
-        src={getExerciseLoop(name)}
+        src={getExerciseLoopFor(name, gender)}
         className="h-full w-full object-cover"
         autoPlay
         loop
         muted
         playsInline
+        controls={false}
         preload="none"
         aria-label={`${name} 3D demo loop`}
       />
-      <span className="pointer-events-none absolute bottom-0 right-0 text-[10px]">{emoji}</span>
-    </div>
+      <span className="pointer-events-none absolute bottom-0.5 right-1 text-[11px]">{emoji}</span>
+    </button>
   );
 });
+
+function ZoomModal({
+  name,
+  gender,
+  onClose,
+}: {
+  name: string;
+  gender: "male" | "female";
+  onClose: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-[60] flex flex-col bg-background/95 backdrop-blur-sm animate-rise">
+      <div className="flex items-center justify-between px-5 py-4">
+        <h2 className="text-lg font-bold">{name}</h2>
+        <button
+          onClick={onClose}
+          aria-label="Close"
+          className="h-9 w-9 rounded-full border border-border text-lg leading-none"
+        >
+          ✕
+        </button>
+      </div>
+      <div className="flex-1 flex items-center justify-center px-4 pb-8">
+        <video
+          src={getExerciseLoopFor(name, gender)}
+          className="max-h-full w-full rounded-3xl object-contain"
+          autoPlay
+          loop
+          muted
+          playsInline
+          controls={false}
+          preload="auto"
+        />
+      </div>
+    </div>
+  );
+}
 
 const ExerciseCard = memo(function ExerciseCard({
   e,
   done,
   swapped,
+  gender,
   onComplete,
   onAlt,
+  onZoom,
 }: {
   e: Exercise;
   done: boolean;
   swapped?: boolean;
+  gender: "male" | "female";
   onComplete: () => void;
   onAlt: () => void;
+  onZoom: () => void;
 }) {
   return (
     <div className={`rounded-2xl border p-4 transition ${done ? "border-primary/40 bg-primary/5" : "border-border bg-card"}`}>
-      <div className="flex items-center gap-3">
-        <ExerciseLoop name={e.name} emoji={e.emoji} />
+      <div className="flex items-start gap-4">
+        <ExerciseLoop name={e.name} emoji={e.emoji} muscle={e.muscle} gender={gender} onZoom={onZoom} />
 
-        <div className="flex-1">
-          <div className="font-semibold flex items-center gap-2">
-            {e.name}
+        <div className="min-w-0 flex-1">
+          <div className="font-semibold flex items-center gap-2 flex-wrap">
+            <span className="truncate">{e.name}</span>
             {swapped && (
               <span className="text-[10px] rounded-full bg-primary/15 text-primary px-2 py-0.5">Swapped</span>
             )}
+            {done && <span className="text-primary text-lg ml-auto">✓</span>}
           </div>
-          <div className="text-xs text-muted-foreground">{e.muscle} • {e.sets} × {e.reps}</div>
+          <div className="mt-0.5 text-xs text-muted-foreground">{e.muscle} • {e.sets} × {e.reps}</div>
+          <div className="mt-1 text-[11px] text-muted-foreground">Rest {e.rest}s</div>
         </div>
-        {done && <span className="text-primary text-xl">✓</span>}
       </div>
-      <div className="mt-3 flex items-center justify-between gap-2">
-        <div className="text-[11px] text-muted-foreground">Rest {e.rest}s</div>
-        <div className="flex gap-2">
-          <button
-            onClick={onAlt}
-            className="text-[11px] rounded-lg border border-border px-3 py-1.5 text-muted-foreground hover:text-foreground"
-          >
-            Machine Busy
-          </button>
-          <button
-            onClick={onComplete}
-            disabled={done}
-            className={`text-xs font-semibold rounded-lg px-4 py-1.5 transition ${
-              done ? "bg-primary/20 text-primary" : "gradient-accent text-primary-foreground"
-            }`}
-          >
-            {done ? "Done" : "Complete"}
-          </button>
-        </div>
+      <div className="mt-3 flex items-center justify-end gap-2">
+        <button
+          onClick={onAlt}
+          className="text-[11px] rounded-lg border border-border px-3 py-1.5 text-muted-foreground hover:text-foreground"
+        >
+          Machine Busy
+        </button>
+        <button
+          onClick={onComplete}
+          disabled={done}
+          className={`text-xs font-semibold rounded-lg px-4 py-1.5 transition ${
+            done ? "bg-primary/20 text-primary" : "gradient-accent text-primary-foreground"
+          }`}
+        >
+          {done ? "Done" : "Complete"}
+        </button>
       </div>
     </div>
   );
 });
+
 
 
 function Celebrate() {
