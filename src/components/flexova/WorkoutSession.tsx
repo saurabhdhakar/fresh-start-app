@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import type { Exercise, WorkoutPlan } from "./data";
+import { getExerciseLoop } from "./exerciseAssets";
+
 
 export function WorkoutSession({
   plan,
@@ -190,7 +192,8 @@ const ExerciseCard = memo(function ExerciseCard({
       </div>
     </div>
   );
-}
+});
+
 
 function Celebrate() {
   return (
