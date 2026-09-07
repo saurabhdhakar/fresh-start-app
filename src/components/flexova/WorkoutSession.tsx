@@ -1,6 +1,6 @@
 import { memo, useEffect, useRef, useState } from "react";
 import type { Exercise, WorkoutPlan } from "./data";
-import { getExerciseLoop } from "./exerciseAssets";
+import { getExerciseLoopFor, getMuscleGlow } from "./exerciseAssets";
 
 
 export function WorkoutSession({
@@ -20,6 +20,7 @@ export function WorkoutSession({
   const [restFor, setRestFor] = useState<Exercise | null>(null);
   const [altFor, setAltFor] = useState<Exercise | null>(null);
   const [showCelebrate, setShowCelebrate] = useState(false);
+  const [zoomFor, setZoomFor] = useState<Exercise | null>(null);
 
   const complete = (e: Exercise) => {
     if (done.has(e.id)) return;
@@ -83,8 +84,10 @@ export function WorkoutSession({
             e={e}
             swapped={swapped.has(e.id)}
             done={done.has(e.id)}
+            gender={gender}
             onComplete={() => complete(e)}
             onAlt={() => setAltFor(e)}
+            onZoom={() => setZoomFor(e)}
           />
         ))}
       </div>
@@ -100,6 +103,9 @@ export function WorkoutSession({
         </div>
       )}
 
+      {zoomFor && (
+        <ZoomModal name={zoomFor.name} gender={gender} onClose={() => setZoomFor(null)} />
+      )}
       {showCelebrate && <Celebrate />}
       {restFor && <RestTimer exercise={restFor} onClose={() => setRestFor(null)} />}
       {altFor && (
