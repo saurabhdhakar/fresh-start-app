@@ -1,0 +1,92 @@
+import warmupAsset from "@/assets/loops/warmup.mp4.asset.json";
+import cardioAsset from "@/assets/loops/cardio.mp4.asset.json";
+import upperAsset from "@/assets/loops/upper.mp4.asset.json";
+import lowerAsset from "@/assets/loops/lower.mp4.asset.json";
+
+export const LOOPS = {
+  warmup: warmupAsset.url,
+  cardio: cardioAsset.url,
+  upper: upperAsset.url,
+  lower: lowerAsset.url,
+} as const;
+
+/** Fallback used whenever an exercise is not present in the catalog. */
+export const FALLBACK_LOOP = LOOPS.warmup;
+
+const normalize = (name: string) =>
+  name.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+
+/** Global exercise -> 3D loop video catalog (free + premium exercises). */
+const RAW_CATALOG: Record<string, string> = {
+  // Cardio / conditioning
+  "Jumping Jacks": LOOPS.cardio,
+  "Burpees": LOOPS.cardio,
+  "Mountain Climbers": LOOPS.cardio,
+  "High Knees": LOOPS.cardio,
+  "Jump Rope": LOOPS.cardio,
+  "Treadmill Sprint": LOOPS.cardio,
+  "Jump Squats": LOOPS.cardio,
+  "Kettlebell Swings": LOOPS.cardio,
+  "Gentle Walk-in-place": LOOPS.cardio,
+
+  // Chest / shoulders / arms / back
+  "Close Grip Chest Press": LOOPS.upper,
+  "Chest Fly": LOOPS.upper,
+  "Cable Chest Fly": LOOPS.upper,
+  "Dumbbell Pullover": LOOPS.upper,
+  "Barbell Bench Press": LOOPS.upper,
+  "Incline Dumbbell Press": LOOPS.upper,
+  "Dumbbell Press": LOOPS.upper,
+  "Push Ups": LOOPS.upper,
+  "Wall Push Up": LOOPS.upper,
+  "Dips": LOOPS.upper,
+  "Overhead Press": LOOPS.upper,
+  "Dumbbell Shoulder Press": LOOPS.upper,
+  "Lateral Raise": LOOPS.upper,
+  "Barbell Curl": LOOPS.upper,
+  "Tricep Rope Pushdown": LOOPS.upper,
+  "Bent-over Rows": LOOPS.upper,
+  "Dumbbell Row": LOOPS.upper,
+  "Cable Row": LOOPS.upper,
+
+  // Lower body / glutes / core
+  "Barbell Squats": LOOPS.lower,
+  "Goblet Squat": LOOPS.lower,
+  "Bodyweight Squat": LOOPS.lower,
+  "Sumo Squat": LOOPS.lower,
+  "Deadlift": LOOPS.lower,
+  "Romanian Deadlift": LOOPS.lower,
+  "Hip Thrust": LOOPS.lower,
+  "Glute Bridge": LOOPS.lower,
+  "Walking Lunges": LOOPS.lower,
+  "Curtsy Lunge": LOOPS.lower,
+  "Donkey Kicks": LOOPS.lower,
+  "Fire Hydrants": LOOPS.lower,
+  "Side-lying Leg Raise": LOOPS.lower,
+  "Bicycle Crunches": LOOPS.lower,
+  "Russian Twist": LOOPS.lower,
+  "Plank": LOOPS.lower,
+  "Bird Dog": LOOPS.lower,
+
+  // Mobility / recovery
+  "Cat-Cow": LOOPS.warmup,
+  "Cat-Cow Flow": LOOPS.warmup,
+  "Cat-Cow Stretch": LOOPS.warmup,
+  "Child's Pose": LOOPS.warmup,
+  "Supine Twist": LOOPS.warmup,
+  "Deep Breathing": LOOPS.warmup,
+  "Reclined Butterfly": LOOPS.warmup,
+  "Legs-up-the-Wall": LOOPS.warmup,
+  "Hip Opener": LOOPS.warmup,
+  "Seated Forward Fold": LOOPS.warmup,
+  "Standing Hip Circles": LOOPS.warmup,
+};
+
+const CATALOG: Record<string, string> = Object.fromEntries(
+  Object.entries(RAW_CATALOG).map(([k, v]) => [normalize(k), v]),
+);
+
+/** Always returns a playable loop URL — never undefined. */
+export function getExerciseLoop(name: string): string {
+  return CATALOG[normalize(name)] ?? FALLBACK_LOOP;
+}
