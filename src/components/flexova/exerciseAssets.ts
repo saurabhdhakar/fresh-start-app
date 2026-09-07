@@ -90,3 +90,30 @@ const CATALOG: Record<string, string> = Object.fromEntries(
 export function getExerciseLoop(name: string): string {
   return CATALOG[normalize(name)] ?? FALLBACK_LOOP;
 }
+
+/**
+ * Gender-aware loop lookup. Male/female specific clips are registered here as
+ * they become available; anything unregistered falls back to the shared loop.
+ */
+const GENDER_CATALOG: Record<"male" | "female", Record<string, string>> = {
+  male: {},
+  female: {},
+};
+
+export function getExerciseLoopFor(name: string, gender: "male" | "female"): string {
+  return GENDER_CATALOG[gender][normalize(name)] ?? getExerciseLoop(name);
+}
+
+/** Neon glow colour per muscle group for the 3D container overlay. */
+export function getMuscleGlow(muscle: string): string {
+  const m = muscle.toLowerCase();
+  if (/(chest|pec)/.test(m)) return "oklch(0.78 0.19 25)";
+  if (/(back|lat)/.test(m)) return "oklch(0.75 0.18 260)";
+  if (/(shoulder|delt)/.test(m)) return "oklch(0.82 0.18 80)";
+  if (/(arm|bicep|tricep)/.test(m)) return "oklch(0.78 0.18 300)";
+  if (/(core|abs|oblique)/.test(m)) return "oklch(0.85 0.19 190)";
+  if (/(glute|butt|hip)/.test(m)) return "oklch(0.78 0.18 340)";
+  if (/(leg|quad|hamstring|calf)/.test(m)) return "oklch(0.80 0.19 150)";
+  if (/(cardio|full)/.test(m)) return "oklch(0.87 0.19 130)";
+  return "oklch(0.87 0.19 130)";
+}
