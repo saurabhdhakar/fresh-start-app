@@ -95,17 +95,18 @@ export function getExerciseLoop(name: string): string {
   return CATALOG[normalize(name)] ?? FALLBACK_LOOP;
 }
 
-/**
- * Gender-aware loop lookup. Male/female specific clips are registered here as
- * they become available; anything unregistered falls back to the shared loop.
- */
-const GENDER_CATALOG: Record<"male" | "female", Record<string, string>> = {
-  male: {},
-  female: {},
+/** Female-character equivalents of the male category loops. */
+const FEMALE_LOOPS: Record<string, string> = {
+  [LOOPS.warmup]: fWarmupAsset.url,
+  [LOOPS.cardio]: fCardioAsset.url,
+  [LOOPS.upper]: fUpperAsset.url,
+  [LOOPS.lower]: fLowerAsset.url,
 };
 
+/** Gender-aware loop lookup — male clips by default, female character for women. */
 export function getExerciseLoopFor(name: string, gender: "male" | "female"): string {
-  return GENDER_CATALOG[gender][normalize(name)] ?? getExerciseLoop(name);
+  const base = getExerciseLoop(name);
+  return gender === "female" ? (FEMALE_LOOPS[base] ?? base) : base;
 }
 
 /** Neon glow colour per muscle group for the 3D container overlay. */
