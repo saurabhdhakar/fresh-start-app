@@ -1,7 +1,11 @@
-import warmupAsset from "@/assets/loops/warmup.mp4.asset.json";
-import cardioAsset from "@/assets/loops/cardio.mp4.asset.json";
-import upperAsset from "@/assets/loops/upper.mp4.asset.json";
-import lowerAsset from "@/assets/loops/lower.mp4.asset.json";
+import warmupAsset from "@/assets/loops/m_warmup.mp4.asset.json";
+import cardioAsset from "@/assets/loops/m_cardio.mp4.asset.json";
+import upperAsset from "@/assets/loops/m_upper.mp4.asset.json";
+import lowerAsset from "@/assets/loops/m_lower.mp4.asset.json";
+import fWarmupAsset from "@/assets/loops/f_warmup.mp4.asset.json";
+import fCardioAsset from "@/assets/loops/f_cardio.mp4.asset.json";
+import fUpperAsset from "@/assets/loops/f_upper.mp4.asset.json";
+import fLowerAsset from "@/assets/loops/f_lower.mp4.asset.json";
 
 export const LOOPS = {
   warmup: warmupAsset.url,
