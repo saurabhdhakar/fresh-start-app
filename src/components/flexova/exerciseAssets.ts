@@ -1,7 +1,11 @@
-import warmupAsset from "@/assets/loops/warmup.mp4.asset.json";
-import cardioAsset from "@/assets/loops/cardio.mp4.asset.json";
-import upperAsset from "@/assets/loops/upper.mp4.asset.json";
-import lowerAsset from "@/assets/loops/lower.mp4.asset.json";
+import warmupAsset from "@/assets/loops/m_warmup.mp4.asset.json";
+import cardioAsset from "@/assets/loops/m_cardio.mp4.asset.json";
+import upperAsset from "@/assets/loops/m_upper.mp4.asset.json";
+import lowerAsset from "@/assets/loops/m_lower.mp4.asset.json";
+import fWarmupAsset from "@/assets/loops/f_warmup.mp4.asset.json";
+import fCardioAsset from "@/assets/loops/f_cardio.mp4.asset.json";
+import fUpperAsset from "@/assets/loops/f_upper.mp4.asset.json";
+import fLowerAsset from "@/assets/loops/f_lower.mp4.asset.json";
 
 export const LOOPS = {
   warmup: warmupAsset.url,
@@ -91,17 +95,18 @@ export function getExerciseLoop(name: string): string {
   return CATALOG[normalize(name)] ?? FALLBACK_LOOP;
 }
 
-/**
- * Gender-aware loop lookup. Male/female specific clips are registered here as
- * they become available; anything unregistered falls back to the shared loop.
- */
-const GENDER_CATALOG: Record<"male" | "female", Record<string, string>> = {
-  male: {},
-  female: {},
+/** Female-character equivalents of the male category loops. */
+const FEMALE_LOOPS: Record<string, string> = {
+  [LOOPS.warmup]: fWarmupAsset.url,
+  [LOOPS.cardio]: fCardioAsset.url,
+  [LOOPS.upper]: fUpperAsset.url,
+  [LOOPS.lower]: fLowerAsset.url,
 };
 
+/** Gender-aware loop lookup — male clips by default, female character for women. */
 export function getExerciseLoopFor(name: string, gender: "male" | "female"): string {
-  return GENDER_CATALOG[gender][normalize(name)] ?? getExerciseLoop(name);
+  const base = getExerciseLoop(name);
+  return gender === "female" ? (FEMALE_LOOPS[base] ?? base) : base;
 }
 
 /** Neon glow colour per muscle group for the 3D container overlay. */
