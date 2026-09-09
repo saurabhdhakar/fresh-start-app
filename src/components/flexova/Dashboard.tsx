@@ -126,10 +126,6 @@ export function Dashboard({
           <AIInsightCard stats={stats} />
           <HistoryStrip weekDone={weekDone} weekPeriod={weekPeriod} />
 
-          <div className="grid grid-cols-2 gap-3">
-            <ActionCard emoji="📷" title={t("dash.scanTitle")} desc={t("dash.scanDesc")} onClick={onOpenScanner} />
-            <ActionCard emoji="👑" title={t("dash.premTitle")} desc={t("dash.premDesc")} onClick={onOpenSub} />
-          </div>
         </div>
       )}
 
@@ -205,16 +201,6 @@ function Mini({ label, value }: { label: string; value: string }) {
   );
 }
 
-
-function ActionCard({ emoji, title, desc, onClick }: { emoji: string; title: string; desc: string; onClick: () => void }) {
-  return (
-    <button onClick={onClick} className="rounded-2xl border border-border bg-card p-4 text-left transition hover:border-primary">
-      <div className="text-2xl">{emoji}</div>
-      <div className="mt-2 font-semibold text-sm">{title}</div>
-      <div className="text-[11px] text-muted-foreground">{desc}</div>
-    </button>
-  );
-}
 
 function BottomNav({ tab, onTab }: { tab: Tab; onTab: (t: Tab) => void }) {
   const { t } = useI18n();
