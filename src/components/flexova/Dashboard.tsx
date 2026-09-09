@@ -122,6 +122,7 @@ export function Dashboard({
             }}
           />
           <DailyProgressCard stats={stats} />
+          {!isPremium && <AdBanner onOpenSub={onOpenSub} />}
           <AIInsightCard stats={stats} />
           <HistoryStrip weekDone={weekDone} weekPeriod={weekPeriod} />
 
