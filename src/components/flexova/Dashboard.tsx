@@ -6,6 +6,7 @@ import { DailyProgressCard, AIInsightCard, ProgressScreen, FeatureStrip, type Da
 import { NutritionScreen } from "./NutritionScreen";
 import { HydrationChallenges } from "./HydrationChallenges";
 import { FlexovaPremium } from "./FlexovaPremium";
+import { AdBanner } from "./AdBanner";
 import { DEFAULT_PRICING, type Pricing } from "@/lib/geo";
 import type { WorkoutPlan } from "./data";
 import { FEMALE_CATEGORIES } from "./data";
@@ -121,6 +122,7 @@ export function Dashboard({
             }}
           />
           <DailyProgressCard stats={stats} />
+          {!isPremium && <AdBanner onOpenSub={onOpenSub} />}
           <AIInsightCard stats={stats} />
           <HistoryStrip weekDone={weekDone} weekPeriod={weekPeriod} />
 
