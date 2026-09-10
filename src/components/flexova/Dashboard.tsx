@@ -7,6 +7,7 @@ import { NutritionScreen } from "./NutritionScreen";
 import { HydrationChallenges } from "./HydrationChallenges";
 import { FlexovaPremium } from "./FlexovaPremium";
 import { AdBanner } from "./AdBanner";
+import { AdNative } from "./AdNative";
 import { DEFAULT_PRICING, type Pricing } from "@/lib/geo";
 import type { WorkoutPlan } from "./data";
 import { FEMALE_CATEGORIES } from "./data";
@@ -160,12 +161,13 @@ export function Dashboard({
       )}
 
       {tab === "scan" && (
-        <div className="px-5 mt-5">
+        <div className="px-5 mt-5 pb-6">
           <button onClick={onOpenScanner} className="w-full rounded-3xl gradient-card border border-border p-6 text-left shadow-card">
             <div className="text-3xl">📷</div>
             <div className="mt-2 font-bold">{t("dash.openScanner")}</div>
             <div className="text-xs text-muted-foreground">{t("dash.openScannerDesc")}</div>
           </button>
+          <AdNative isPremium={Boolean(isPremium)} />
         </div>
       )}
 
